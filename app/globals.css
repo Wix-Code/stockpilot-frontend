@@ -1,26 +1,484 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* =========================
+     StockPilot Brand Palette
+     ========================= */
+
+  --paper: #f7f4ec;
+
+  --ink: #12261e;
+  --ink-soft: #2a3d33;
+
+  --stone: #8a8371;
+  --stone-light: #d8d2c2;
+
+  --green: #2f6844;
+  --green-deep: #1f4a30;
+  --green-tint: #e6eee7;
+
+  --terracotta: #c8622a;
+  --terracotta-tint: #f7e9de;
+
+  --white: #ffffff;
+
+  /* =========================
+     Semantic Colors
+     ========================= */
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+
+  --surface: var(--white);
+  --surface-soft: #fbfaf6;
+
+  --border: #ded9cb;
+  --border-strong: #c8c0ad;
+
+  --muted: #efece4;
+  --muted-foreground: var(--stone);
+
+  --primary: var(--green);
+  --primary-hover: var(--green-deep);
+  --primary-foreground: var(--white);
+
+  --secondary: var(--green-tint);
+  --secondary-foreground: var(--green-deep);
+
+  --accent: var(--terracotta);
+  --accent-soft: var(--terracotta-tint);
+
+  --success: #2f6844;
+  --success-soft: #e6eee7;
+
+  --warning: #b86d21;
+  --warning-soft: #f7eadb;
+
+  --danger: #b5473c;
+  --danger-soft: #f8e7e4;
+
+  --info: #356987;
+  --info-soft: #e7f0f5;
+
+  /* =========================
+     Input States
+     ========================= */
+
+  --input-bg: var(--white);
+  --input-border: var(--border);
+  --input-border-hover: var(--border-strong);
+  --input-border-focus: var(--green);
+
+  /* =========================
+     Shadows
+     ========================= */
+
+  --shadow-xs:
+    0 1px 2px rgb(18 38 30 / 0.04);
+
+  --shadow-sm:
+    0 1px 3px rgb(18 38 30 / 0.06),
+    0 1px 2px rgb(18 38 30 / 0.04);
+
+  --shadow-md:
+    0 8px 24px rgb(18 38 30 / 0.08);
+
+  --shadow-lg:
+    0 18px 50px rgb(18 38 30 / 0.1);
+
+  /* =========================
+     Radius
+     ========================= */
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 }
+
+
+/* =========================
+   Tailwind Theme Tokens
+   ========================= */
 
 @theme inline {
+  /* Brand */
+  --color-paper: var(--paper);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+
+  --color-stone: var(--stone);
+  --color-stone-light: var(--stone-light);
+
+  --color-green: var(--green);
+  --color-green-deep: var(--green-deep);
+  --color-green-tint: var(--green-tint);
+
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-tint: var(--terracotta-tint);
+
+  --color-white: var(--white);
+
+  /* Semantic */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  /* Fonts */
+  --font-sans:
+    var(--font-manrope),
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --font-mono:
+    ui-monospace,
+    "SFMono-Regular",
+    "SF Mono",
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+/* =========================
+   Base Styles
+   ========================= */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    border: 0;
+    outline: 0;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  input,
+  textarea,
+  select {
+    background: var(--input-bg);
+    color: var(--ink);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--stone);
+  }
+
+  img,
+  svg {
+    display: block;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* =========================
+   Selection
+   ========================= */
+
+::selection {
+  background: var(--green-tint);
+  color: var(--green-deep);
 }
+
+
+/* =========================
+   Keyboard Focus
+   ========================= */
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+
+/* =========================
+   Numeric Alignment
+   ========================= */
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================
+   Scrollbar
+   ========================= */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--stone-light) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--stone-light);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--stone);
+}
+
+
+/* =========================
+   Reusable Utilities
+   ========================= */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .surface-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .surface-soft {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+  }
+
+  .auth-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .input-base {
+    width: 100%;
+    min-height: 3rem;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--ink);
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .input-base:hover {
+    border-color: var(--input-border-hover);
+  }
+
+  .input-base:focus {
+    border-color: var(--input-border-focus);
+    box-shadow: 0 0 0 3px rgb(47 104 68 / 0.12);
+    outline: none;
+  }
+
+  .input-base:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: var(--muted);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    min-height: 3rem;
+
+    border: 0;
+    border-radius: var(--radius-md);
+
+    background: var(--green);
+    color: var(--white);
+
+    font-weight: 700;
+
+    transition:
+      background-color 150ms ease,
+      transform 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--green-deep);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    min-height: 3rem;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--white);
+    color: var(--ink);
+
+    font-weight: 700;
+
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface-soft);
+    border-color: var(--border-strong);
+  }
+
+  .link-primary {
+    color: var(--green);
+    font-weight: 700;
+    transition: color 150ms ease;
+  }
+
+  .link-primary:hover {
+    color: var(--green-deep);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Page background        #F7F4EC
+Cards                  #FFFFFF
+Main text              #12261E
+Secondary text         #8A8371
+Primary green          #2F6844
+Deep green             #1F4A30
+Green tint             #E6EEE7
+Warning                 #C8622A
+Warning tint            #F7E9DE
+Border                  #E4E0D6
+Font                    Manrope
+Card radius             16px */
