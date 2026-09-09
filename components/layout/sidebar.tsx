@@ -7,12 +7,18 @@ import {
   Boxes,
   Building2,
   LayoutDashboard,
+  Menu,
   Package,
   Settings,
   ShoppingCart,
   Truck,
   Users,
+  X,
 } from "lucide-react";
+
+import { useState, useEffect } from "react";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navigation = [
   {
@@ -25,6 +31,7 @@ const navigation = [
       },
     ],
   },
+
   {
     label: "Inventory",
     items: [
@@ -40,6 +47,7 @@ const navigation = [
       },
     ],
   },
+
   {
     label: "Operations",
     items: [
@@ -60,6 +68,7 @@ const navigation = [
       },
     ],
   },
+
   {
     label: "Insights",
     items: [
@@ -70,6 +79,7 @@ const navigation = [
       },
     ],
   },
+
   {
     label: "Administration",
     items: [
@@ -91,50 +101,234 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] border-r border-[#E4E0D6] bg-[#FBFAF6] lg:flex lg:flex-col">
-      <div className="flex h-[78px] items-center border-b border-[#E4E0D6] px-6">
-        <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green text-white shadow-sm">
+    <>
+      {/* Desktop sidebar */}
+
+      <aside
+        className="
+          fixed
+          inset-y-0
+          left-0
+          z-40
+          hidden
+          w-[260px]
+          border-r
+          border-[#E4E0D6]
+          bg-[#FBFAF6]
+          lg:flex
+          lg:flex-col
+        "
+      >
+        <SidebarContent pathname={pathname} />
+      </aside>
+
+      {/* Mobile sidebar */}
+
+      <div
+        className="
+          fixed
+          left-0
+          right-0
+          top-0
+          z-50
+          flex
+          h-16
+          items-center
+          justify-between
+          border-b
+          border-[#E4E0D6]
+          bg-[#FBFAF6]
+          px-4
+          lg:hidden
+        "
+      >
+        <MobileSidebar />
+      </div>
+    </>
+  );
+}
+
+function MobileSidebar() {
+  const [open, setOpen] = useState(false);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger>
+        <button
+          type="button"
+          className="
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            border
+            border-[#DDD8CC]
+            bg-white
+            text-ink-soft
+          "
+        >
+          <Menu size={20} />
+        </button>
+      </SheetTrigger>
+
+      <SheetContent
+        side="left"
+        className="
+          w-[280px]
+          border-r
+          border-[#E4E0D6]
+          bg-[#FBFAF6]
+          p-0
+        "
+      >
+        <SidebarContent pathname={pathname} />
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function SidebarContent({ pathname }: { pathname: string }) {
+  return (
+    <div
+      className="
+        flex
+        h-full
+        flex-col
+      "
+    >
+      {/* Logo */}
+
+      <div
+        className="
+          flex
+          h-[78px]
+          items-center
+          border-b
+          border-[#E4E0D6]
+          px-6
+        "
+      >
+        <Link
+          href="/dashboard"
+          className="
+            flex
+            items-center
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-xl
+              bg-green
+              text-white
+              shadow-sm
+            "
+          >
             <Boxes size={21} strokeWidth={1.9} />
           </div>
 
           <div>
-            <p className="text-[18px] font-bold tracking-[-0.03em] text-ink">
+            <p
+              className="
+                text-[18px]
+                font-bold
+                tracking-[-0.03em]
+                text-ink
+              "
+            >
               StockPilot
             </p>
-            <p className="text-[11px] font-medium text-stone">
+
+            <p
+              className="
+                text-[11px]
+                font-medium
+                text-stone
+              "
+            >
               Inventory workspace
             </p>
           </div>
         </Link>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-4 py-5">
-        <div className="space-y-6">
+      {/* Navigation */}
+
+      <nav
+        className="
+          flex-1
+          overflow-y-auto
+          px-4
+          py-5
+        "
+      >
+        <div
+          className="
+            space-y-6
+          "
+        >
           {navigation.map((section) => (
             <div key={section.label}>
-              <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-stone">
+              <p
+                className="
+                    mb-2
+                    px-3
+                    text-[10px]
+                    font-bold
+                    uppercase
+                    tracking-[0.16em]
+                    text-stone
+                  "
+              >
                 {section.label}
               </p>
 
-              <div className="space-y-1">
+              <div
+                className="
+                    space-y-1
+                  "
+              >
                 {section.items.map((item) => {
+                  const Icon = item.icon;
+
                   const active =
                     pathname === item.href ||
                     pathname.startsWith(`${item.href}/`);
-
-                  const Icon = item.icon;
 
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={[
-                        "flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition-all",
-                        active
-                          ? "bg-green text-white shadow-sm"
-                          : "text-ink-soft hover:bg-green-tint hover:text-green-deep",
-                      ].join(" ")}
+                      className={`
+                            flex
+                            h-10
+                            items-center
+                            gap-3
+                            rounded-xl
+                            px-3
+                            text-sm
+                            font-semibold
+                            transition-all
+
+                            ${
+                              active
+                                ? "bg-green text-white shadow-sm"
+                                : "text-ink-soft hover:bg-green-tint hover:text-green-deep"
+                            }
+                          `}
                     >
                       <Icon size={18} strokeWidth={1.8} />
 
@@ -148,24 +342,76 @@ export function Sidebar() {
         </div>
       </nav>
 
-      <div className="border-t border-[#E4E0D6] p-4">
+      {/* User */}
+
+      <div
+        className="
+          border-t
+          border-[#E4E0D6]
+          p-4
+        "
+      >
         <button
           type="button"
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-green-tint"
+          className="
+            flex
+            w-full
+            items-center
+            gap-3
+            rounded-xl
+            px-3
+            py-2.5
+            text-left
+            hover:bg-green-tint
+          "
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-deep text-xs font-bold text-white">
+          <div
+            className="
+              flex
+              h-9
+              w-9
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-green-deep
+              text-xs
+              font-bold
+              text-white
+            "
+          >
             DA
           </div>
 
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-ink">
+          <div
+            className="
+              min-w-0
+              flex-1
+            "
+          >
+            <p
+              className="
+                truncate
+                text-sm
+                font-semibold
+                text-ink
+              "
+            >
               Daniel Adeyemi
             </p>
 
-            <p className="truncate text-[11px] text-stone">Business Owner</p>
+            <p
+              className="
+                truncate
+                text-[11px]
+                text-stone
+              "
+            >
+              Business Owner
+            </p>
           </div>
         </button>
       </div>
-    </aside>
+    </div>
   );
 }
