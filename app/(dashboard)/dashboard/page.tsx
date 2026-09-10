@@ -1,51 +1,72 @@
-import { Banknote, PackageCheck, PackageX, TriangleAlert } from "lucide-react";
+"use client";
+
+import { useState } from "react";
 
 import { DashboardHeader } from "@/components/layout/dashboardHeader";
-import { StatCard } from "@/components/reuseable/StatsCard";
+
+import { SalesOverview } from "@/components/dashboard/SalesOverview";
+
+import { StockHealth } from "@/components/dashboard/StockHealth";
+
+import {
+  PeriodDropdown,
+  DashboardPeriod,
+} from "@/components/dashboard/PeriodDropdown";
+
+import { LowStock } from "@/components/dashboard/LowStock";
+
+import { TopProducts } from "@/components/dashboard/TopProducts";
+
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { RecentPurchases } from "@/components/dashboard/RecntPurchases";
 
 export default function DashboardPage() {
+  const [period, setPeriod] = useState<DashboardPeriod>("7");
+
   return (
     <>
       <DashboardHeader />
 
-      <section>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <StatCard
-            title="Today's sales"
-            value="₦245,000"
-            description="Compared with yesterday"
-            icon={<Banknote size={20} strokeWidth={1.8} />}
-            trend={{
-              value: "12.4%",
-              direction: "up",
-              label: "vs yesterday",
-            }}
-          />
+      <div
+        className="
+          mb-5
+          flex
+          justify-end
+        "
+      >
+        <PeriodDropdown value={period} onChange={setPeriod} />
+      </div>
 
-          <StatCard
-            title="Inventory value"
-            value="₦3.82M"
-            description="1,842 units currently in stock"
-            icon={<PackageCheck size={20} strokeWidth={1.8} />}
-          />
+      <section
+        className="
+          grid
+          gap-5
+          xl:grid-cols-[2fr_1fr]
+        "
+      >
+        <SalesOverview period={period} />
 
-          <StatCard
-            title="Low stock"
-            value="12"
-            description="Products below reorder level"
-            icon={<TriangleAlert size={20} strokeWidth={1.8} />}
-            tone="warning"
-          />
-
-          <StatCard
-            title="Out of stock"
-            value="4"
-            description="Products requiring attention"
-            icon={<PackageX size={20} strokeWidth={1.8} />}
-            tone="danger"
-          />
-        </div>
+        <StockHealth healthy={180} low={35} out={12} />
       </section>
+
+      <section
+        className="
+          mt-5
+          grid
+          gap-5
+          lg:grid-cols-2
+        "
+      >
+        <TopProducts />
+
+        <LowStock />
+        <RecentActivity />
+        <RecentPurchases />
+      </section>
+
+      {/* <section className="mt-5">
+        <RecentActivity />
+      </section> */}
     </>
   );
 }
